@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.dao.EmployeeMapper">
+  <!--指定单表查询字段的封装-->
+  <resultMap id="BaseResultMap" type="com.hz.bean.Employee">
+    <id column="eid" jdbcType="INTEGER" property="eid" />
+    <result column="empname" jdbcType="VARCHAR" property="empname" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="depid" jdbcType="INTEGER" property="depid" />
+  </resultMap>
+  <!--指定联合查询的部门字段的封装-->
+  <resultMap id="WithDeptResultMap" type="com.hz.bean.Employee">
+    <id column="eid" jdbcType="INTEGER" property="eid" />
+    <result column="empname" jdbcType="VARCHAR" property="empname" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="depid" jdbcType="INTEGER" property="depid" />
+    <association property="department" javaType="com.hz.bean.Department">
+        <id column="pid" property="pid"></id>
+        <result column="depname" property="depname"></result>
+    </association>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    eid, empname, age, depid
+  </sql>
+  <sql id="WithDept_Column_List">
+    e.eid, e.empname, e.age, e.depid,d.pid,d.depname
+  </sql>
+  <!--单表查询员工时不带部门信息(条件查询可有可无)-->
+  <select id="selectByExample" parameterType="com.hz.bean.EmployeeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from employee
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <!--关联查询员工时带部门信息(条件查询可有可无)
+    from employee as e LEFT join department as d on e.depid=d.pid
+    注意:如果查询出来的关联数据不是以主表的id进行排序的可以设置"order by 写你要以哪个表进行排序的id"
+  -->
+  <select id="selectByExampleWithDept" resultMap="WithDeptResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="WithDept_Column_List" />
+    from employee e ,department d where e.depid= d.pid ORDER BY e.eid
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <!--id查询员工时不带部门信息-->
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from employee
+    where eid = #{eid,jdbcType=INTEGER}
+  </select>
+  <!--关联id查询员工时带部门信息-->
+  <select id="selectByPrimaryKeyWithDept" resultMap="WithDeptResultMap">
+    select
+    <include refid="WithDept_Column_List" />
+    from employee e left join department d on e.depid=d.pid
+    where eid = #{eid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from employee
+    where eid = #{eid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hz.bean.EmployeeExample">
+    delete from employee
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hz.bean.Employee">
+    insert into employee (eid, empname, age, 
+      depid)
+    values (#{eid,jdbcType=INTEGER}, #{empname,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+      #{depid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hz.bean.Employee">
+    insert into employee
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="eid != null">
+        eid,
+      </if>
+      <if test="empname != null">
+        empname,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="depid != null">
+        depid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="eid != null">
+        #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="empname != null">
+        #{empname,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="depid != null">
+        #{depid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hz.bean.EmployeeExample" resultType="java.lang.Long">
+    select count(*) from employee
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update employee
+    <set>
+      <if test="record.eid != null">
+        eid = #{record.eid,jdbcType=INTEGER},
+      </if>
+      <if test="record.empname != null">
+        empname = #{record.empname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null">
+        age = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.depid != null">
+        depid = #{record.depid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update employee
+    set eid = #{record.eid,jdbcType=INTEGER},
+      empname = #{record.empname,jdbcType=VARCHAR},
+      age = #{record.age,jdbcType=INTEGER},
+      depid = #{record.depid,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hz.bean.Employee">
+    update employee
+    <set>
+      <if test="empname != null">
+        empname = #{empname,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="depid != null">
+        depid = #{depid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where eid = #{eid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hz.bean.Employee">
+    update employee
+    set empname = #{empname,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      depid = #{depid,jdbcType=INTEGER}
+    where eid = #{eid,jdbcType=INTEGER}
+  </update>
+</mapper>
