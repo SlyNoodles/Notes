@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.hz.test.schedule.job"/>
+
+    <bean id="mailJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="name" value="mailJobDetail"/>
+        <property name="group" value="group"/>
+        <property name="jobClass" value="com.hz.test.schedule.job.MailJob"/>
+        <property name="durability" value="true"/>
+    </bean>
+
+    <bean id="mailJobTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="name" value="mailJobTrigger"/>
+        <property name="group" value="group"/>
+        <property name="repeatInterval" value="5000"/>
+        <property name="repeatCount" value="3"/>
+        <!-- 触发器与作业的绑定 -->
+        <property name="jobDetail" ref="mailJobDetail"/>
+    </bean>
+
+    <bean id="alertJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="name" value="alertJobDetail"/>
+        <property name="group" value="group"/>
+        <!--
+        <property name="targetClass" value="com.gs.job.AlertJob"/>
+        -->
+        <property name="targetObject" ref="alertJob"/>
+        <property name="targetMethod" value="run"/>
+    </bean>
+
+    <bean id="alertJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="name" value="alertJobTrigger"/>
+        <property name="group" value="group"/>
+        <!-- 触发器与作业的绑定 -->
+        <property name="jobDetail" ref="alertJobDetail"/>
+        <property name="cronExpression" value="0/5 * * * * ?"/>
+    </bean>
+
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="jobDetails">
+            <list>
+                <ref bean="mailJobDetail"/>
+                <ref bean="alertJobDetail"/>
+            </list>
+        </property>
+        <property name="triggers">
+            <list>
+                <ref bean="mailJobTrigger"/>
+                <ref bean="alertJobTrigger"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>
