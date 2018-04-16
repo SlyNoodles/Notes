@@ -1,0 +1,187 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.hz</groupId>
+  <artifactId>SRB_SSM</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>SRB_SSM Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  <!--引入项目依赖的jer包-->
+  <dependencies>
+    <!--======================SSM高级整合jer包-开始=============================-->
+    <!--SpringMVC、Spring-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>4.3.14.RELEASE</version>
+    </dependency>
+    <!--Spring-jdbc-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>4.3.14.RELEASE</version>
+    </dependency>
+    <!--Spring面向切面编程-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aspects</artifactId>
+      <version>4.3.14.RELEASE</version>
+    </dependency>
+
+    <!--MyBatis-->
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>3.4.5</version>
+    </dependency>
+    <!--MyBatis和Spring的适配包-->
+    <dependency>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis-spring</artifactId>
+      <version>1.3.1</version>
+    </dependency>
+
+    <!--数据库连接池-->
+    <dependency>
+      <groupId>c3p0</groupId>
+      <artifactId>c3p0</artifactId>
+      <version>0.9.1.2</version>
+    </dependency>
+    <!--Mysql驱动-->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>6.0.6</version>
+    </dependency>
+
+    <!--jstl、service-api、junit-->
+    <dependency>
+      <groupId>jstl</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.2</version>
+    </dependency>
+
+    <!--如果不引入这个包jsp页面会报错-->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.8.1</version>
+    </dependency>
+    <!--===============================SSM高级整合jer包-结束====================================-->
+
+    <!--===============================Mybatis Generator整合jer包-开始===================================-->
+    <!--MBG(代码生成器) 逆向工程jar包 -->
+    <dependency>
+      <groupId>org.mybatis.generator</groupId>
+      <artifactId>mybatis-generator-core</artifactId>
+      <version>1.3.5</version>
+    </dependency>
+    <!--===============================Mybatis Generator整合jer包-结束===================================-->
+
+    <!--===============================poi整合jer包-开始===================================-->
+    <!-- 老版本的office, ppt, doc, xls -->
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>3.17</version>
+    </dependency>
+    <!-- 新版本的office, pptx, xlsx, docx -->
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>3.17</version>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>5.0.2</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!--================================poi整合jer包-结束===================================-->
+
+    <!--================================quartz定时器的整合jer包-开始===================================-->
+    <!-- 使用quartz.jar 、quartz-jobs 实现定时任务 。实现 定时采集 接口数据 -->
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz</artifactId>
+      <version>2.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.quartz-scheduler</groupId>
+      <artifactId>quartz-jobs</artifactId>
+      <version>2.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
+      <version>4.3.14.RELEASE</version>
+    </dependency>
+    <!--================================quartz定时器的整合jer包-结束===================================-->
+
+    <!--================================JUnit4测试模块的整合jer包-开始===================================-->
+    <!--Spring test Spring测试模块hamcrest-core-->
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>4.3.7.RELEASE</version>
+    </dependency>
+    <!--================================JUnit4测试模块的整合jer包-结束===================================-->
+
+    <!--引入pageHelper分页插件 -->
+    <dependency>
+      <groupId>com.github.pagehelper</groupId>
+      <artifactId>pagehelper</artifactId>
+      <version>5.1.2</version>
+    </dependency>
+
+    <!-- 返回json字符串的支持 -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.9.3</version>
+    </dependency>
+
+    <!--JSR303数据校验支持；tomcat7及以上的服务器，
+		tomcat7以下的服务器：el表达式。额外给服务器的lib包中替换新的标准的el
+		-->
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>5.3.4.Final</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+  </dependencies>
+  <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <build>
+    <finalName>SRB_SSM</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
