@@ -1,0 +1,60 @@
+JDK自带注解：
+@Override   表示覆盖了父类的方法
+@Deprecated  表示这个方法已经过时了(有些地方调用了该方法删除后，调用了的地方会报错。就可以使用该注解过时掉该方法)
+@SuppressWarnings("deprecation") 有时方法中会有一些黄色警告，可以使用注解去掉警告看起来代码比较干净
+
+常见的第三方注解
+	Spring:
+		@Autowired
+		@Service
+		@Repository
+	Mybatis:
+		@InsertProvider
+		@UpdateProvider
+		@Options
+
+自定义注解：
+	自定义注解的用法要求
+		//注解的注解（元注解）
+		//注解的作用域：
+			CONSTRUCTOR(构造方法声明)
+			FIELD(二段声明)
+			LOCAL_VARIABLE(局部变量声明)
+			METHOD(方法声明)
+			PACKAGE(包声明)
+			PARAMETER(参数声明)
+			TYPE(类、接口)
+		@Target({ElementType.METHOD,ElementType.TYPE})
+		//生命周期：
+			SOURCE(只在源码显示编译时会丢弃)
+			CLASS(编译时会记录到class中，运行时忽略)
+			RUNTIME(运行时存在，可以通过反射读取)
+		@Retention(RetentionPolicy.RUNTIME)
+		//允许子类、子注解继承它
+		@Inherited
+		//生成javadoc时会包含注解
+		@Documented
+		//使用@interface关键字定义注解(表示现在定义的不是类，不是接口是一个注解)
+		public @interface Description{
+			//成员类型是受限的，合法的类型包括原始类型及String,Class,Annotation,Enumeration 
+			//如果注解只有一个成员，则成员名必须取名为value(),在使用时可以忽略成员名和赋值号(=)
+			//注解类可以没有成员，没有成员的注解称为标识注解
+			String dese();//成员以无参无异常方式声明
+			String author();
+			int age() default 18;//可以给成员指定一个默认的值
+		}
+	
+	使用自定义注解 
+		@<注解名>(<成员名1>=<成员值1>,<成员名1>=<成员值1>,....)
+		@Description(dese="I am eyeColor",author="Mooc boy",age=18)
+		public String eyeColor(){
+			return "red";
+		}
+	解析注解
+	   概念：通过反射获取类、函数或者成员上的运行时注解信息，从而实现动态控制程序运行的逻辑。
+
+
+注解的分类
+	源码注解：注解只在源码中存在，编译成.class文件就不存在了。
+	编译时注解(如：JDK自带注解)：注解在编译和.class文件中都存在。
+	运行时注解(如：@Autowired)：在运行阶段还在起作用，甚至会影响运行逻辑的注解
