@@ -1,0 +1,30 @@
+1. 创建一个 main 方法，并读取 catalina.out 文件中信息在控制台打印出来。
+
+2. 将 catalina.out 文件中的日志所有的请求信息打印出来，输出参数如下图：
+2016-05-04 10:13:58.186 [tomcat-threads--48] INFO  com.bdb.web.filter.SessionFilter - 
+------------------------------------------------请求参数------------------------------------------------：/login/getLoginInfo
+2016-05-04 10:13:58.186 [tomcat-threads--48] INFO  com.bdb.web.filter.SessionFilter - {
+  "channel" : "1",
+  "deviceUniqueId" : "5c2519a466bf4abe99f6449219a9bf9b",
+  "accessToken" : "b2075b38ff4541408010fbfe5cd6168c",
+  "version" : "2.0.0"
+}
+要求打印出的格式：
+        请求时间                      请求地址                   请求参数
+2016-05-04 10:13:58.186       /login/getLoginInfo         "channel" : 1,"version" : "2.0.0","deviceUniqueId" : "5c2519a466bf4abe99f6449219a9bf9b","accessToken" : "b2075b38ff4541408010fbfe5cd6168c"
+
+3、将/login/getLoginInfo 接口的请求信息详细于控制台打印出来，格式如下：
+    请求时间                    channel           deviceUniqueId      accessToken       version 
+2016-05-04 10:13:58.186      "channel" : 1          .......            ........        "version" : "2.0.0"
+                                                                                        新版本 
+                                                                                        旧版本 
+                                                                                        "2.0.0"显示“新版本”
+                                                                                        其他显示“旧版本”
+
+4、请将以上第三项要求以文本信息读取以界面的形式实现：
+    ① 以 input file 文本上传。
+    ② 在 iframe 内嵌列表页面展示（显示内容包括 3 的列表信息及“导出”、“保存”）。
+    
+5、导出——列表展示页面点击“导出”按钮，将数据按显示的格式以 excle 形式导出。
+
+6、保存——列表展示页面点击“保存”按钮，将数据保存到数据库中。
