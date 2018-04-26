@@ -1,0 +1,54 @@
+1、缓存	
+	Memcached
+	Redis
+	
+2、Redis缓存数据库
+	NoSQL：非关系型数据库
+	
+	对象存储系统：key-value键值对存储
+	key: 字符串
+	value: 一切皆对象
+	
+	Redis, MongoDB, HBase(Hadoop)
+	
+	Redis是开源的支持string, hash, list, set, sorted set数据类型的高可用的分布式且支持集群的缓存数据库 
+	
+3、Redis服务端
+	官方只提供了linux版本的服务端 https://redis.io
+	
+	windows版本：https://github.com/MicrosoftArchive/redis
+	
+	redis-server redis.windows.conf (windows上的启动方式)
+	redis-server (linux版启动)
+	
+	redis-cli
+	
+4、redis的数据类型
+	string
+		string类型是二进制安全的。意思是redis的string可以包含任何数据。比如jpg图片或者序列化的对象 。
+		string类型是Redis最基本的数据类型，一个键最大能存储512MB。
+		
+		set key value     value用双引号括起来，key不需要用引号
+		get key
+		
+		set key value EX 5  表示5秒后失效
+		
+	hash
+		redis中key-value，此时的Value还是key-value. 每个 hash 可以存储 2的32次方 -1 键值对（40多亿）。
+		
+		hmset key field value field value 
+		hget key field
+		
+	list
+		按照插入顺序排序。你可以添加一个元素到列表的头部（左边）或者尾部（右边）。
+		lpush key value1 value2 value3
+		lrange key start_index stop_index    (包含开始与结束索引)
+		
+	set
+		无序不可重复
+		sadd key value1 value2
+		smembers key
+		
+	
+	
+	
