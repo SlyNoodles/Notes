@@ -1,0 +1,26 @@
+Maven启动工程命令：
+tomcat7:run
+clean tomcat7:run
+tomcat7指定使用tomcat7的插件
+
+端口占用cmd查询端口命令：
+netstat -ano
+
+生成清除Eclipse项目结构：
+mvn eclipse:eclipse
+mvn eclipse:clean
+
+清理（删除target目录下编译内容）
+mvn clean
+
+仅打包Web页面文件
+mvn war:exploded
+
+编译项目
+mvn compile
+
+打包发布
+mvn package
+
+打包时跳过测试
+mvn package -Dmaven.test.skip=ture
