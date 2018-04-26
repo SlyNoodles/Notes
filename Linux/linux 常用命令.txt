@@ -1,0 +1,76 @@
+linux 常用命令
+
+系统命令
+cat 打印文件内容
+date 显示系统日期 
+shutdown -h now 关闭系统(1) 
+logout 注销 
+
+文件和目录
+cd /home 进入 '/home' 目录' 
+cd .. 返回上一级目录 
+cd ../.. 返回上两级目录 
+cd  直接到root
+
+ls 查看目录中的文件 
+ls -F 查看目录中的文件 
+ls -l 显示文件和目录的详细资料 
+ls -a 显示隐藏文件 
+
+find / -name filename  从root/开始进入根文件系统搜索文件和目录 
+find / -user user1 搜索属于用户 'user1' 的文件和目录 
+find /usr/local/ -name \*.bin 在目录 '/usr/local/' 中搜索带有'.bin' 结尾的文件 
+
+mkdir dir1 创建一个叫做 'dir1' 的目录' 
+mkdir dir1 dir2 同时创建两个目录 
+mkdir -p /tmp/dir1/dir2 创建一个目录树 
+
+rm -f filename 删除一个叫做 'filename' 的文件' 
+rm -rf dir1 删除一个叫做 'dir1' 的目录并同时删除其内容 
+rm -rf dir1 dir2 同时删除两个目录及它们的内容 
+mv dir1 new_dir 重命名/移动 一个目录 
+
+tar -xvfz archive.tar.gz 解压一个gzip格式的压缩包 
+
+yum install package_name 下载并安装一个rpm包 
+
+授权
+r=4，w=2，x=1
+若要rwx属性则4+2+1=7；
+若要rw-属性则4+2=6；
+若要r-x属性则4+1=5。
+chmod 777 file
+
+ps -aux | grep java 查看java的进程
+ps -ef | grep java  也是查看进程
+例如:
+root      8900  2822  0 16:21 pts/0    00:00:00 grep java
+kill 8900 杀死8900进程
+
+查看防火墙状态
+ systemctl status firewalld 
+ 放开8080防火墙。 如果新机远程连接不上某端口,放开试试.还有可能未开启安全组.
+ firewall-cmd --zone=public --add-port=8080/tcp --permanent 
+ 改完后要重新加载
+ firewall-cmd --reload
+ 查看是否开启
+ firewall-cmd --zone= public --query-port=8080/tcp
+
+一些dev环境我们一般会装在 /usr/local/下.
+修改环境变量配置
+vi /etc/profile 
+重新执行才生效
+source /etc/profile
+jdk maven 等等环境的安装同上
+
+编译文件失败可能未装gcc c的编译环境.
+make 
+
+tomcat
+cd /usr/local/tomcat/bin 到bin目录下,为配置热部署的情况下注意,重新发版要先停tom ,再启动tom
+./startup.sh 启动tom的命令
+./shutdown.sh 关闭tom命令
+
+
+
+
